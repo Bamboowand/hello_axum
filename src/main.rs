@@ -1,7 +1,8 @@
-use std::{env::args, fmt::format};
+use std::env;
 
 use axum::{routing::get, Router};
 use clap::{Arg, Command};
+use dotenv::dotenv;
 
 async fn hello_world() -> &'static str {
     "Hello world"
@@ -9,6 +10,12 @@ async fn hello_world() -> &'static str {
 
 #[tokio::main]
 async fn main() {
+    dotenv().ok();
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let secret_key = env::var("SECRET_KEY").expect("SECRET_KEY must be set");
+    println!("database_url: {}", database_url);
+    println!("secret_key: {}", secret_key);
+
     let matches = Command::new("Hello axum")
         .version("1.0")
         .author("Jacob")
